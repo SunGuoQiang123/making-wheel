@@ -29,15 +29,27 @@ class LRU {
   }
 
   get(key:any) {
-
+    const node = this.linkList.findNode(key);
+    if (node) {
+      // check masAge expires
+      if (new Date().getTime()  - node.timestamp > this.maxAge) {
+        this.linkList.drop(key);
+        return false;
+      } else {
+        this.linkList.removeToTop(key);
+        return this.map[key];
+      }
+    }
+    return false;
   }
 
-  set(key:any, value:any):void {
+  add(key:any, value:any):void {
     const currentSize = key.length + value.length;
     if (currentSize > this.maxSize) {
       throw(new Error('key exceed max size!!!!'));
     }
     while (this.getSize() + currentSize > this.maxSize) {
+      delete this[this.linkList.tail.value];
       this.linkList.pop();
     }
     this[key] = value;
@@ -45,6 +57,34 @@ class LRU {
   }
 
   has(key:any):boolean {
-    return true;
+    const node = this.linkList.findNode(key);
+    if (node) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  set(key:string, value:string):void {
+    const currentSize = key.length + value.length;
+    if (currentSize > this.maxSize) {
+      throw(new Error('key size exceeded!!!'));
+    }
+
+    if (this.linkList.findNode(key) ) {
+      this.linkList.removeToTop(key);
+      while (this.getSize() > this.maxSize) {
+        delete this[this.linkList.tail.value];
+        this.linkList.pop();
+      }
+      this[key] = value;
+    } else {
+      return;
+    }
+  }
+
+  delete(key:string):void {
+    delete this[key];
+    this.linkList.drop(key);
   }
  }

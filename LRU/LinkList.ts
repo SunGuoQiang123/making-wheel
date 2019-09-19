@@ -39,7 +39,7 @@ class DoubleLinkedList {
     return del;
   }
 
-  removeToTop(value):void {
+  removeToTop(value:string):void {
     let node = this.head;
     let res = null;
     while(node && !res) {
@@ -89,5 +89,33 @@ class DoubleLinkedList {
 
   updateNodeTime(node:LinkNode):void {
     node.timestamp = new Date().getTime();
+  }
+
+  findNode(key: string):LinkNode {
+    let node = this.head;
+    while (node && node.value !== key) {
+      node = node.next;
+    }
+    return node;
+  }
+
+  drop(key:string) {
+    if (this.getSize() === 1) {
+      this.head = this.tail = null;
+    } else {
+      let node = this.head;
+      while (node && node.value !== key) {
+        node = node.next;
+      }
+      if(!node) return false;
+      if(node.prev) {
+        node.prev.next = node.next;
+        if(node === this.tail) this.tail = node.prev;
+      }
+      if(node.next) {
+        node.next.prev = node.prev;
+        if(node === this.head) this.head = node.next;
+      }
+    }
   }
 }
