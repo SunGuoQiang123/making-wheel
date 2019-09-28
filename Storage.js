@@ -2,20 +2,17 @@ function isBaseType(val) {
   return (typeof val !== 'object' && typeof val !== 'function') || val == null;
 }
 
-export const LocStorage = (function() {
-  let _instance;
-
-  function Storage() {
-    if (!this instanceof Storage) {
-      return new Storage();
+class LocStorage {
+  constructor() {
+  }
+  static getInstancce() {
+    if (!LocStorage.instance) {
+      LocStorage.instance = new LocStorage();
     }
-    if (!_instance) {
-      _instance = new Storage();
-    }
-    return _instance;
+    return LocStorage.instance;
   }
 
-  Storage.prototype.get = function(key) {
+  get(key) {
     const data = localStorage.getItem(key);
     if (!data) {
       return data;
@@ -40,7 +37,7 @@ export const LocStorage = (function() {
     }
   };
 
-  Storage.prototype.set = function(key, value, seconds) {
+  set(key, value, seconds) {
     const data = isBaseType(value) ?
     value + '0' :
     JSON.stringify(value) + '1';
@@ -56,15 +53,15 @@ export const LocStorage = (function() {
     localStorage.setItem(key, realValue);
   };
 
-  Storage.prototype.clear = function() {
-    return LocStorage.clear();
+  clear() {
+    return localStorage.clear();
   };
 
-  Storage.prototype.remove = function(key) {
+  remove(key) {
     return localStorage.removeItem(key);
   };
 
-  Storage.prototype.length = localStorage.length;
-
-  return Storage;
-})();
+  get length() {
+    return localStorage.length;
+  }
+}
