@@ -2,14 +2,16 @@ function isBaseType(val) {
   return (typeof val !== 'object' && typeof val !== 'function') || val == null;
 }
 
+let _instance = null;
+
 class LocStorage {
   constructor() {
   }
   static getInstancce() {
-    if (!LocStorage.instance) {
-      LocStorage.instance = new LocStorage();
+    if (!_instance) {
+      _instance = new LocStorage();
     }
-    return LocStorage.instance;
+    return _instance;
   }
 
   get(key) {
