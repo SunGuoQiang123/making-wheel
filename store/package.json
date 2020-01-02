@@ -1,0 +1,11 @@
+{
+  "name": "my-store",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./store.js",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {}
+}
