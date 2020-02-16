@@ -10,7 +10,7 @@ class Store {
     this.getters = {};
     this._mutations = Object.create(null);
     this._getters = Object.create(null);
-    this._actions = Objec.create(null);
+    this._actions = Object.create(null);
     this.registerMutations(mutations);
     this.registerActions(actions);
     this.registerGetters(getters);
