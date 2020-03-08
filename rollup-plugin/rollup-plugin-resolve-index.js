@@ -1,6 +1,6 @@
 const path = require('path')
 
-module.exports = function(options) {
+module.exports = function() {
   return {
     name: 'rollup-plugin-resolve-index',
     resolveId(source, importer) {
@@ -8,7 +8,11 @@ module.exports = function(options) {
         !path.extname(source) && (source.startsWith('.') || source.startsWith('/'))
       ) {
         const newPath = source.endsWith('/') ? `${source}index.js` : `${source}/index.js`;
-        return path.resolve(path.dirname(importer), newPath);
+        if(path.isAbsolute(source)) {
+          return newPath;
+        } else {
+          return path.resolve(path.dirname(importer), newPath);
+        }
       } else {
         return null;
       }
